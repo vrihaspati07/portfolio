@@ -86,7 +86,11 @@ export default function GithubLive() {
               !nameLower.includes("freelancer") &&
               !nameLower.includes("freelamcer") &&
               !nameLower.includes("portfolio") &&
-              !nameLower.includes("portfoio")
+              !nameLower.includes("portfoio") &&
+              !nameLower.includes("shri") &&
+              !nameLower.includes("chai") &&
+              !nameLower.includes("smart-health") &&
+              !nameLower.includes("food-health")
             );
           });
           const formatted = filtered.slice(0, 6).map((item: {
