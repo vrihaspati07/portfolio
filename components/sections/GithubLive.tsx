@@ -79,16 +79,8 @@ export default function GithubLive() {
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           const whitelist = [
-            "sound-payment-system",
-            "offline-sound-payment",
-            "kiranalens",
-            "tara-ai-assistant",
-            "pet-emotion-music",
-            "pet-emotion-music-recommender",
-            "powerbi-sales-dashboard",
-            "sales-analysis-dashboard",
-            "eventiq",
-            "eventiq-assistant"
+            "portfolio",
+            "portfolio-website-"
           ];
           // Process API repositories, whitelisting only the real projects
           const filtered = data.filter((item: { name: string }) => {
