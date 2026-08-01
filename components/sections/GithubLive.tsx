@@ -80,7 +80,7 @@ export default function GithubLive() {
         if (Array.isArray(data) && data.length > 0) {
           const whitelist = [
             "portfolio",
-            "portfolio-website-"
+            "ai-resumerank"
           ];
           // Process API repositories, whitelisting only the real projects
           const filtered = data.filter((item: { name: string }) => {
