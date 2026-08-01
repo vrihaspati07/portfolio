@@ -78,38 +78,45 @@ export default function GithubLive() {
       })
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          // Process API repositories, filtering out the unwanted ones
+          const whitelist = [
+            "sound-payment-system",
+            "offline-sound-payment",
+            "kiranalens",
+            "tara-ai-assistant",
+            "pet-emotion-music",
+            "pet-emotion-music-recommender",
+            "powerbi-sales-dashboard",
+            "sales-analysis-dashboard",
+            "eventiq",
+            "eventiq-assistant"
+          ];
+          // Process API repositories, whitelisting only the real projects
           const filtered = data.filter((item: { name: string }) => {
-            const nameLower = item.name.toLowerCase();
-            return (
-              !nameLower.includes("github.io") &&
-              !nameLower.includes("freelancer") &&
-              !nameLower.includes("freelamcer") &&
-              !nameLower.includes("portfolio") &&
-              !nameLower.includes("portfoio") &&
-              !nameLower.includes("shri") &&
-              !nameLower.includes("chai") &&
-              !nameLower.includes("smart-health") &&
-              !nameLower.includes("food-health")
-            );
+            return whitelist.includes(item.name.toLowerCase());
           });
-          const formatted = filtered.slice(0, 6).map((item: {
-            id: number;
-            name: string;
-            description: string | null;
-            stargazers_count?: number;
-            language: string | null;
-            html_url: string;
-          }) => ({
-            id: item.id,
-            name: item.name,
-            description: item.description,
-            stargazers_count: item.stargazers_count || 0,
-            language: item.language,
-            html_url: item.html_url,
-          }));
-          setRepos(formatted);
-          setIsFallback(false);
+
+          if (filtered.length === 0) {
+            setRepos(FALLBACK_REPOS);
+            setIsFallback(true);
+          } else {
+            const formatted = filtered.slice(0, 6).map((item: {
+              id: number;
+              name: string;
+              description: string | null;
+              stargazers_count?: number;
+              language: string | null;
+              html_url: string;
+            }) => ({
+              id: item.id,
+              name: item.name,
+              description: item.description,
+              stargazers_count: item.stargazers_count || 0,
+              language: item.language,
+              html_url: item.html_url,
+            }));
+            setRepos(formatted);
+            setIsFallback(false);
+          }
         } else {
           throw new Error("Invalid structure");
         }
