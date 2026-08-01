@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import WelcomeGreeting from "@/components/ui/WelcomeGreeting";
 import CustomCursor from "@/components/ui/CustomCursor";
 import CommandPalette from "@/components/ui/CommandPalette";
+import ThemeCustomizer from "@/components/ui/ThemeCustomizer";
+import TerminalConsole from "@/components/ui/TerminalConsole";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -42,6 +44,8 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent)] selection:text-white">
+        <ThemeCustomizer />
+        <TerminalConsole />
         <WelcomeGreeting />
         <CustomCursor />
         <CommandPalette />

@@ -1,8 +1,9 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Loader2, Sparkles, Trash2 } from "lucide-react";
+import { ArrowUpRight, Loader2, Sparkles, Trash2, Mic } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
 
 const SUGGESTIONS = [
@@ -22,7 +23,58 @@ export default function HeroChat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
+
+  // Initialize SpeechRecognition
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = () => {
+          setIsListening(true);
+        };
+
+        recognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          if (transcript) {
+            setInput(transcript);
+          }
+          setIsListening(false);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.error("Speech recognition error:", event);
+          setIsListening(false);
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+        };
+
+        recognitionRef.current = recognition;
+      }
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome or Safari.");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+    }
+  };
 
   // Auto-scroll to the bottom of the conversation
   useEffect(() => {
@@ -134,7 +186,11 @@ export default function HeroChat() {
       </AnimatePresence>
 
       {/* Input Box Row */}
-      <div className="flex items-center gap-3 bg-[var(--surface)] border border-white/10 rounded-2xl px-5 py-4 focus-within:border-[var(--accent)] transition-colors shadow-lg">
+      <div className={`flex items-center gap-3 bg-[var(--surface)] border rounded-2xl px-5 py-4 transition-all duration-300 shadow-lg ${
+        isListening 
+          ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)] bg-red-500/5" 
+          : "border-white/10 focus-within:border-[var(--accent)]"
+      }`}>
         <Sparkles size={18} className="text-[var(--accent)] shrink-0" />
         <input
           id="chat-input"
@@ -142,11 +198,27 @@ export default function HeroChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-          placeholder="Ask anything about Vrihaspati's work & skills..."
+          placeholder={isListening ? "Listening... Speak now..." : "Ask anything about Vrihaspati's work & skills..."}
           disabled={loading}
           className="flex-1 bg-transparent outline-none text-[var(--text)] text-sm placeholder:text-[var(--text-muted)] disabled:opacity-50"
         />
         
+        {/* Voice Input Mic Button */}
+        {typeof window !== "undefined" && (
+          <button
+            onClick={toggleListening}
+            id="chat-mic-btn"
+            aria-label="Toggle voice input"
+            className={`p-1.5 rounded-lg transition-all cursor-pointer shrink-0 ${
+              isListening
+                ? "text-red-500 bg-red-500/10 animate-pulse border border-red-500/20"
+                : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5"
+            }`}
+          >
+            <Mic size={16} />
+          </button>
+        )}
+
         {/* Clear Thread Button */}
         {messages.length > 0 && (
           <button

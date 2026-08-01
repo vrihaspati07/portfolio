@@ -1,6 +1,6 @@
 # Vrihaspati Chaubey — Portfolio
 
-A top-tier, recruiter-facing personal portfolio site featuring a conversational AI assistant, custom interactive charts, real-time visitor alerts, a keyboard-driven command palette, and a tailored resume.
+A top-tier, recruiter-facing personal portfolio site featuring a conversational AI assistant with voice input, a slide-up developer CLI console, custom interactive charts, real-time visitor alerts, a theme customizer, and a tailored resume.
 
 **Live:** [vrihaspati.me](https://vrihaspati.me)
 
@@ -16,26 +16,13 @@ A top-tier, recruiter-facing personal portfolio site featuring a conversational 
 
 ## Key Features
 
-1. **AI Chatbot (Groq)**: Instant conversational queries grounded directly on Vrihaspati's projects, experience, and certifications.
-2. **3D Welcome Greeting Overlay**: A premium CSS 3D perspective hologram card showing a secure handshake scan upon visiting. Skip controls via `sessionStorage` prevent repetition.
-3. **Interactive Resume Sheet & PDF Download**: Custom web resume with print rules (`@media print` for clean A4 printing) and a direct PDF download button.
-4. **Traffic Tracker & Visitor Analytics**: Server-side route that captures Vercel geolocation headers (IP, City, Country, User-Agent) and pushes rich notifications to your Discord Server via a private Webhook.
-5. **Command Palette (`⌘K`)**: A keyboard-driven command center for navigation shortcuts and social profile links.
-6. **Fluid Visuals**: Custom mouse-trailing spring cursor, D3-like interactive skill nodes, and active GitHub API live fetch status.
-7. **Selected Projects with GitHub Integration**: All project cards display direct link triggers pointing to their respective source code repositories on GitHub.
-
-## Project Status
-
-| Section | Status |
-|---|---|
-| Design System & Custom Tokens | Done |
-| Interactive Skills Graph | Done |
-| GitHub Live Data integration | Done |
-| Selected Work & Projects | Done |
-| Timeline & Hackathons | Done |
-| Interactive Resume Sheet & PDF Download | Done |
-| Real-time Visitor Discord Alerts | Done |
-| 3D Welcome Greeting Screen | Done |
+1. **AI Chatbot with Voice Input**: Speech-to-Text support using the Web Speech API so recruiters can click a microphone and speak their questions natively.
+2. **Interactive Developer CLI Console**: A slide-up, retro-themed terminal console supporting shell commands (`help`, `about`, `skills`, `projects`, `contact`, `theme`).
+3. **Accent Theme Customizer**: A floating color customizer that lets visitors switch between presets (Indigo, Emerald, Amber, Rose, Violet) with `localStorage` persistence.
+4. **3D Holographic Skills Cards**: Cards that tilt and rotate dynamically in 3D perspective based on real-time mouse hover coordinates.
+5. **3D Welcome Greeting Overlay**: A premium 3D perspective hologram card showing a welcome handshake scan for 3 seconds.
+6. **Traffic Tracker & Visitor Analytics**: Server-side route that captures Vercel geolocation headers (IP, City, Country, User-Agent) and pushes rich notifications to your Discord Server via a private Webhook.
+7. **Interactive Resume Sheet & PDF Download**: Custom web resume with print rules and a direct PDF download button linking to `/resume.pdf`.
 
 ## Environment Variables
 
@@ -53,7 +40,6 @@ To support the **Download PDF** button:
 1. Save your resume as a PDF file named exactly `resume.pdf`.
 2. Place this file into the `public/` directory of the project:
    `public/resume.pdf`
-3. The "Download PDF" button will immediately pick up and serve the file to recruiters.
 
 ## Local Development
 
