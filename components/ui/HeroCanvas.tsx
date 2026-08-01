@@ -33,12 +33,30 @@ export default function HeroCanvas() {
     };
     window.addEventListener("resize", handleResize);
 
-    // Curated high-end color palette (Indigo, Violet, Slate, Accent)
-    const colors = [
-      "rgba(99, 102, 241, 0.4)",  // Indigo
-      "rgba(139, 92, 246, 0.3)",  // Violet
-      "rgba(59, 130, 246, 0.25)", // Blue
-    ];
+    // Keep dynamic color tracks synced with CSS customizer selections
+    let frameCount = 0;
+    let accentColor = "rgba(99, 102, 241, 0.4)";
+    let accentSoftColor = "rgba(139, 92, 246, 0.3)";
+
+    const updateColorsFromCSS = () => {
+      if (typeof window === "undefined") return;
+      const computed = getComputedStyle(document.documentElement);
+      const hexColor = computed.getPropertyValue("--accent").trim() || "#6366F1";
+
+      if (hexColor.startsWith("#")) {
+        const hex = hexColor.replace("#", "");
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+
+        accentColor = `rgba(${r}, ${g}, ${b}, 0.45)`;
+        // Soft offset color swaps G & B values to create visual depth contrast
+        accentSoftColor = `rgba(${g}, ${b}, ${r}, 0.35)`;
+      }
+    };
+
+    // Initial load sync
+    updateColorsFromCSS();
 
     const blobs: Blob[] = [
       {
@@ -47,7 +65,7 @@ export default function HeroCanvas() {
         vx: 0.4,
         vy: 0.3,
         radius: Math.min(width, height) * 0.4,
-        color: colors[0],
+        color: accentColor,
       },
       {
         x: width * 0.8,
@@ -55,7 +73,7 @@ export default function HeroCanvas() {
         vx: -0.3,
         vy: 0.4,
         radius: Math.min(width, height) * 0.45,
-        color: colors[1],
+        color: accentSoftColor,
       },
       {
         x: width * 0.5,
@@ -63,12 +81,21 @@ export default function HeroCanvas() {
         vx: 0.25,
         vy: -0.35,
         radius: Math.min(width, height) * 0.35,
-        color: colors[2],
+        color: accentColor,
       },
     ];
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
+
+      frameCount++;
+      // Sync color changes once every 30 frames (twice a second) for high performance
+      if (frameCount % 30 === 0) {
+        updateColorsFromCSS();
+        blobs[0].color = accentColor;
+        blobs[1].color = accentSoftColor;
+        blobs[2].color = accentColor.replace("0.45", "0.25");
+      }
 
       // Draw each blob
       blobs.forEach((blob) => {

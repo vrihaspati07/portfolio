@@ -1,10 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Award, Briefcase, GraduationCap, Code, Download } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Award, Briefcase, GraduationCap, Code, Download, Eye, X } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
 
 export default function Resume() {
+  const [showViewer, setShowViewer] = useState(false);
+
   return (
     <section id="resume" className="px-6 md:px-16 py-24 max-w-6xl mx-auto scroll-mt-16">
       {/* Self-contained print styling */}
@@ -67,6 +70,17 @@ export default function Resume() {
         {/* Action Buttons */}
         <div className="flex gap-3 no-print">
           <Magnetic range={40} strength={0.2}>
+            <button
+              onClick={() => setShowViewer(true)}
+              id="resume-view-btn"
+              className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 hover:border-[var(--accent)] hover:bg-white/10 text-[var(--text-muted)] hover:text-[var(--text)] rounded-xl text-xs font-mono transition-all cursor-pointer select-none"
+            >
+              <Eye size={14} />
+              <span>View Resume</span>
+            </button>
+          </Magnetic>
+
+          <Magnetic range={40} strength={0.2}>
             <a
               href="/resume.pdf"
               download="Vrihaspati_Chaubey_Resume.pdf"
@@ -81,6 +95,41 @@ export default function Resume() {
           </Magnetic>
         </div>
       </div>
+
+      {/* PDF Modal Viewer */}
+      <AnimatePresence>
+        {showViewer && (
+          <div className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-8 no-print">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="relative w-full max-w-5xl h-[85vh] bg-[#0A0A0B] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-2xl"
+            >
+              {/* Modal Header */}
+              <div className="flex justify-between items-center px-6 py-4 border-b border-white/5 shrink-0 bg-[#121214]">
+                <span className="font-mono text-xs text-[var(--accent)] font-semibold">resume-sheet.pdf</span>
+                <button
+                  onClick={() => setShowViewer(false)}
+                  className="text-[var(--text-muted)] hover:text-white p-1 hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Iframe Embed */}
+              <div className="flex-1 bg-[#1A1A1D]">
+                <iframe
+                  src="/resume.pdf#toolbar=0"
+                  className="w-full h-full border-none"
+                  title="Vrihaspati Chaubey Resume"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Styled Resume Sheet Container */}
       <motion.div

@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Loader2, Sparkles, Trash2, Mic } from "lucide-react";
+import { ArrowUpRight, Loader2, Sparkles, Trash2, Mic, Volume2, VolumeX } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
 
 const SUGGESTIONS = [
@@ -24,8 +24,40 @@ export default function HeroChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [activeSpeechId, setActiveSpeechId] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+
+  // Stop any active speech synthesis on unmount
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined") {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const toggleSpeech = (msgId: string, text: string) => {
+    if (typeof window === "undefined") return;
+
+    if (activeSpeechId === msgId) {
+      window.speechSynthesis.cancel();
+      setActiveSpeechId(null);
+    } else {
+      window.speechSynthesis.cancel();
+      const cleanText = text.replace(/[*#`_\-]/g, ""); // Strip markdown formatting
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = "en-US";
+      utterance.onend = () => {
+        setActiveSpeechId(null);
+      };
+      utterance.onerror = () => {
+        setActiveSpeechId(null);
+      };
+      setActiveSpeechId(msgId);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   // Initialize SpeechRecognition
   useEffect(() => {
@@ -157,9 +189,18 @@ export default function HeroChat() {
                   }`}
                 >
                   {msg.sender === "ai" && (
-                    <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--accent)] mb-1">
-                      <Sparkles size={10} />
-                      <span>AI Assistant</span>
+                    <div className="flex items-center justify-between gap-4 text-[10px] font-mono text-[var(--accent)] mb-1 select-none">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles size={10} />
+                        <span>AI Assistant</span>
+                      </div>
+                      <button
+                        onClick={() => toggleSpeech(msg.id, msg.text)}
+                        className="text-[var(--text-muted)] hover:text-[var(--accent)] p-0.5 rounded transition-colors cursor-pointer"
+                        title={activeSpeechId === msg.id ? "Stop reading" : "Read aloud"}
+                      >
+                        {activeSpeechId === msg.id ? <VolumeX size={12} /> : <Volume2 size={12} />}
+                      </button>
                     </div>
                   )}
                   <p className="whitespace-pre-line">{msg.text}</p>
