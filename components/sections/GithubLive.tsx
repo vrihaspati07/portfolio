@@ -84,7 +84,9 @@ export default function GithubLive() {
             return (
               !nameLower.includes("github.io") &&
               !nameLower.includes("freelancer") &&
-              !nameLower.includes("portfolio")
+              !nameLower.includes("freelamcer") &&
+              !nameLower.includes("portfolio") &&
+              !nameLower.includes("portfoio")
             );
           });
           const formatted = filtered.slice(0, 6).map((item: {
