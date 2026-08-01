@@ -22,6 +22,7 @@ A top-tier, recruiter-facing personal portfolio site featuring a conversational 
 4. **Traffic Tracker & Visitor Analytics**: Server-side route that captures Vercel geolocation headers (IP, City, Country, User-Agent) and pushes rich notifications to your Discord Server via a private Webhook.
 5. **Command Palette (`⌘K`)**: A keyboard-driven command center for navigation shortcuts and social profile links.
 6. **Fluid Visuals**: Custom mouse-trailing spring cursor, D3-like interactive skill nodes, and active GitHub API live fetch status.
+7. **Selected Projects with GitHub Integration**: All project cards display direct link triggers pointing to their respective source code repositories on GitHub.
 
 ## Project Status
 
