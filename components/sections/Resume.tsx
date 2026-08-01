@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Printer, Award, Briefcase, GraduationCap, Code } from "lucide-react";
+import { Printer, Award, Briefcase, GraduationCap, Code, Download } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
 
 export default function Resume() {
@@ -70,6 +70,19 @@ export default function Resume() {
 
         {/* Action Buttons */}
         <div className="flex gap-3 no-print">
+          <Magnetic range={40} strength={0.2}>
+            <a
+              href="/resume.pdf"
+              download="Vrihaspati_Chaubey_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="resume-download-btn"
+              className="flex items-center gap-2 px-4 py-2.5 bg-[var(--accent-soft)] border border-[var(--accent)]/20 hover:border-[var(--accent)] hover:bg-[var(--accent)]/30 text-[var(--accent)] hover:text-white rounded-xl text-xs font-mono transition-all cursor-pointer select-none"
+            >
+              <Download size={14} />
+              <span>Download PDF</span>
+            </a>
+          </Magnetic>
           <Magnetic range={40} strength={0.2}>
             <button
               onClick={handlePrint}

@@ -85,13 +85,13 @@ export default function WelcomeGreeting() {
                   <span>DECENTRALIZED CONNECTION ESTABLISHED</span>
                 </div>
 
-                <div className="space-y-1">
-                  <h1 className="font-display text-2xl font-bold text-[var(--text)] tracking-tight flex items-center gap-1.5 justify-center md:justify-start">
-                    <span>Vrihaspati Chaubey</span>
-                    <Sparkles size={16} className="text-[var(--accent)]" />
+                <div className="space-y-2">
+                  <h1 className="font-display text-xl font-bold text-[var(--text)] tracking-tight flex items-center gap-1.5 justify-center md:justify-start">
+                    <span>Welcome to visit this portfolio</span>
+                    <Sparkles size={16} className="text-[var(--accent)] shrink-0" />
                   </h1>
                   <p className="text-xs font-mono text-[var(--text-muted)]">
-                    AI/ML & Full-Stack Developer
+                    Vrihaspati Chaubey — AI/ML & Full-Stack
                   </p>
                 </div>
 
