@@ -17,10 +17,10 @@ export default function WelcomeGreeting() {
         setShow(true);
       }, 0);
       
-      // Auto close after 950ms (fast entrance, quick scan, fast exit)
+      // Auto close after 3000ms (3 seconds)
       const timer = setTimeout(() => {
         setShow(false);
-      }, 950);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -52,8 +52,8 @@ export default function WelcomeGreeting() {
           height: 3px;
           background: linear-gradient(90deg, transparent, var(--accent), transparent);
           box-shadow: 0 0 12px var(--accent);
-          animation: laser-scan 0.5s ease-in-out forwards;
-          animation-delay: 0.25s;
+          animation: laser-scan 2.0s ease-in-out forwards;
+          animation-delay: 0.4s;
           pointer-events: none;
         }
       `}</style>

@@ -71,15 +71,23 @@ export default function GithubLive() {
   const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
-    fetch("https://api.github.com/users/vrihaspati07/repos?sort=updated&per_page=6")
+    fetch("https://api.github.com/users/vrihaspati07/repos?sort=updated&per_page=12")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
       })
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          // Process API repositories
-          const formatted = data.map((item: {
+          // Process API repositories, filtering out the unwanted ones
+          const filtered = data.filter((item: { name: string }) => {
+            const nameLower = item.name.toLowerCase();
+            return (
+              !nameLower.includes("github.io") &&
+              !nameLower.includes("freelancer") &&
+              !nameLower.includes("portfolio")
+            );
+          });
+          const formatted = filtered.slice(0, 6).map((item: {
             id: number;
             name: string;
             description: string | null;

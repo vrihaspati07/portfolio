@@ -1,14 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Printer, Award, Briefcase, GraduationCap, Code, Download } from "lucide-react";
+import { Award, Briefcase, GraduationCap, Code, Download } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
 
 export default function Resume() {
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <section id="resume" className="px-6 md:px-16 py-24 max-w-6xl mx-auto scroll-mt-16">
       {/* Self-contained print styling */}
@@ -82,16 +78,6 @@ export default function Resume() {
               <Download size={14} />
               <span>Download PDF</span>
             </a>
-          </Magnetic>
-          <Magnetic range={40} strength={0.2}>
-            <button
-              onClick={handlePrint}
-              id="resume-print-btn"
-              className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 hover:border-[var(--accent)] hover:text-white rounded-xl text-xs font-mono transition-colors cursor-pointer select-none"
-            >
-              <Printer size={14} className="text-[var(--accent)]" />
-              <span>Print / Save PDF</span>
-            </button>
           </Magnetic>
         </div>
       </div>
