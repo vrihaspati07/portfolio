@@ -59,6 +59,14 @@ export default function Contact() {
 
     setStep(0);
     setIsSending(true);
+
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message }),
+    }).catch((err) => {
+      console.error("Failed to route secure contact payload:", err);
+    });
   };
 
   const handleReset = () => {

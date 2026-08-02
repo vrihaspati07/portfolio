@@ -102,6 +102,7 @@ export default function TerminalConsole() {
           document.documentElement.style.setProperty("--accent", match.value);
           document.documentElement.style.setProperty("--accent-soft", match.soft);
           localStorage.setItem("vc_theme_color", match.name);
+          window.dispatchEvent(new CustomEvent("vc-theme-changed", { detail: match.name }));
           response = `Accent theme updated to ${match.name}.`;
         } else {
           response = `Theme '${arg || ""}' not found. Try: theme <indigo|emerald|amber|rose|violet>`;

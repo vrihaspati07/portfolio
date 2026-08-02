@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { message } = await req.json();
+    const { message, history } = await req.json();
 
     if (!message || typeof message !== "string" || !message.trim()) {
       return NextResponse.json({ error: "Valid message parameter is required." }, { status: 400 });
@@ -20,11 +20,20 @@ export async function POST(req: NextRequest) {
 
     const groq = new Groq({ apiKey });
 
+    // Map history to standard chat roles
+    const historyMessages = Array.isArray(history)
+      ? history.map((msg: any) => ({
+          role: (msg.sender === "user" ? "user" : "assistant") as "user" | "assistant",
+          content: msg.text,
+        }))
+      : [];
+
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [
-        { role: "system", content: PROFILE_CONTEXT },
-        { role: "user", content: message.trim() },
+        { role: "system" as const, content: PROFILE_CONTEXT },
+        ...historyMessages,
+        { role: "user" as const, content: message.trim() },
       ],
       temperature: 0.4,
       max_tokens: 400,

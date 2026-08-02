@@ -36,6 +36,19 @@ export default function ThemeCustomizer() {
         }, 0);
       }
     }
+
+    // Sync theme selection when changed from other components (like the console)
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail) {
+        setActiveTheme(customEvent.detail);
+      }
+    };
+
+    window.addEventListener("vc-theme-changed", handleThemeChange);
+    return () => {
+      window.removeEventListener("vc-theme-changed", handleThemeChange);
+    };
   }, []);
 
   const changeTheme = (preset: ColorPreset) => {

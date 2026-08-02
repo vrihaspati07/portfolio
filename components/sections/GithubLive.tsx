@@ -71,20 +71,26 @@ export default function GithubLive() {
   const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
-    fetch("https://api.github.com/users/vrihaspati07/repos?sort=updated&per_page=12")
+    fetch("https://api.github.com/users/vrihaspati07/repos?sort=updated&per_page=30")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
       })
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          const whitelist = [
-            "portfolio",
-            "ai-resumerank"
-          ];
-          // Process API repositories, whitelisting only the real projects
-          const filtered = data.filter((item: { name: string }) => {
-            return whitelist.includes(item.name.toLowerCase());
+          // Process API repositories dynamically: filter forks, archived, and username readme
+          const filtered = data.filter((item: { name: string; fork: boolean; archived?: boolean }) => {
+            return !item.fork && !item.archived && item.name.toLowerCase() !== "vrihaspati07";
+          });
+
+          // Sort by star count, then by updated date
+          filtered.sort((a: any, b: any) => {
+            const starsA = a.stargazers_count || 0;
+            const starsB = b.stargazers_count || 0;
+            if (starsB !== starsA) {
+              return starsB - starsA;
+            }
+            return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime();
           });
 
           if (filtered.length === 0) {

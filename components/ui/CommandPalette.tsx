@@ -197,7 +197,7 @@ export default function CommandPalette() {
   return (
     <>
       {/* Global badge to inform user */}
-      <div className="fixed bottom-6 right-6 z-40 hidden md:block">
+      <div className="fixed bottom-6 right-20 z-40 hidden md:block">
         <button
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-2 px-3 py-2 bg-[var(--surface)] hover:bg-[var(--surface)]/90 border border-white/10 rounded-xl shadow-2xl text-[var(--text-muted)] hover:text-[var(--text)] transition-colors text-xs font-mono select-none cursor-pointer"

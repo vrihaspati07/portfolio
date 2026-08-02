@@ -131,11 +131,19 @@ export default function HeroChat() {
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
 
+    const historyPayload = messages.slice(-6).map((msg) => ({
+      sender: msg.sender,
+      text: msg.text,
+    }));
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: query }),
+        body: JSON.stringify({
+          message: query,
+          history: historyPayload,
+        }),
       });
       const data = await res.json();
       

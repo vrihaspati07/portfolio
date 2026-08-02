@@ -16,16 +16,17 @@ A top-tier, recruiter-facing personal portfolio site featuring a conversational 
 
 ## Key Features
 
-1. **AI Chatbot with Voice Input & Output**: 
-   - **Voice Input**: Speech-to-Text support using the Web Speech API so recruiters can click a microphone and speak their questions natively.
-   - **Voice Response**: Text-to-Speech support via native `speechSynthesis` API, allowing users to listen to AI responses read aloud with clean formatting (JARVIS style).
-2. **Sleek PDF Resume Inline Viewer**: Enables recruiters to click "View Resume" and read your full resume PDF (`public/resume.pdf`) directly inside a custom full-screen modal without leaving your page.
-3. **Accent Theme Customizer**: A floating settings panel allowing visitors to change the accent color theme (presets: Indigo, Emerald, Amber, Rose, Violet) in real-time. Selection state is saved in `localStorage`.
+1. **AI Chatbot with Conversational Memory & Voice Support**: 
+   - **Voice Support**: Hands-free Speech-to-Text inputs (Web Speech API) and Text-to-Speech responses (`speechSynthesis` API).
+   - **Conversational Memory**: Retains the last 6 turns of chat history context using the Groq API (LLaMA 3.3 70B) to intelligently address follow-up questions.
+2. **Discord Contact Alerts**: Contact form submissions actually route user message payloads (name, email, text) to your private Discord server as a beautifully styled Rich Embed via a serverless POST route (`/api/contact`).
+3. **Accent Theme Customizer & Event Sync**: A settings panel to select color accents (Indigo, Emerald, Amber, Rose, Violet). Includes DOM custom event listeners to sync preset updates in real-time between the floating customizer, slide-up CLI, and backdrop particles.
 4. **Dynamic Background Aura Sync**: Integrates the theme customizer with the canvas rendering loop inside `HeroCanvas.tsx`. Changing themes dynamically shifts the glowing backdrop blur particles to match.
 5. **Interactive Developer CLI Console**: A slide-up, retro-themed terminal console supporting standard commands (`help`, `about`, `skills`, `projects`, `contact`, `theme`).
 6. **3D Holographic Skills Cards**: Skills categories tilt and rotate in 3D perspective following mouse movements. Individual badges react with spring-physics scale animations.
 7. **3D Welcome Greeting Overlay**: A premium 3D perspective hologram showing a welcoming greeting scanner animation for 3 seconds.
 8. **Traffic Tracker & Visitor Analytics**: Silently fetches Vercel geolocation headers (IP, City, Country, User-Agent) on load and alerts your private Discord server via Webhook.
+9. **Dynamic GitHub Repository Feed**: Queries up to 30 active public repositories, filters out forks, archived repos, and the username profile readme, sorting them dynamically by star count to feature your top public work.
 
 ## Environment Variables
 
