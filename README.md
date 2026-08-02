@@ -26,7 +26,6 @@ A top-tier, recruiter-facing personal portfolio site featuring a conversational 
 6. **3D Holographic Skills Cards**: Skills categories tilt and rotate in 3D perspective following mouse movements. Individual badges react with spring-physics scale animations.
 7. **3D Welcome Greeting Overlay**: A premium 3D perspective hologram showing a welcoming greeting scanner animation for 3 seconds.
 8. **Traffic Tracker & Visitor Analytics**: Silently fetches Vercel geolocation headers (IP, City, Country, User-Agent) on load and alerts your private Discord server via Webhook.
-9. **Dynamic GitHub Repository Feed**: Queries up to 30 active public repositories, filters out forks, archived repos, and the username profile readme, sorting them dynamically by star count to feature your top public work.
 
 ## Environment Variables
 
